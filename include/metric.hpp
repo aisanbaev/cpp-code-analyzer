@@ -1,20 +1,17 @@
 #pragma once
-#include <unistd.h>
-
+#include "function.hpp"
 #include <memory>
 #include <string>
+#include <unistd.h>
+#include <variant>
 #include <vector>
-
-#include "function.hpp"
 
 namespace analyzer::metric {
 
 struct MetricResult {
-    using ValueType = int;
-    // using ValueType = std::variant<int, std::string>; // если захотите реализовывать метрику
-    // naming style
-    std::string metric_name;  // Название метрики
-    ValueType value;          // Значение метрики
+    using ValueType = std::variant<int, std::string>;
+    std::string metric_name;
+    ValueType value;
 };
 
 struct IMetric {

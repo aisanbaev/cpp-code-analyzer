@@ -19,7 +19,7 @@ TEST(CodeLinesCountTest, SimpleFunction) {
     auto result = metric.Calculate(*func_it);
 
     // Ожидаем 5 строк кода в test_simple
-    EXPECT_EQ(result.value, 5);
+    EXPECT_EQ(std::get<int>(result.value), 5);
 }
 
 TEST(CodeLinesCountTest, ManyLinesFunction) {
@@ -35,7 +35,7 @@ TEST(CodeLinesCountTest, ManyLinesFunction) {
     auto result = metric.Calculate(*func_it);
 
     // Ожидаем 11 строк кода в testmultiline
-    EXPECT_EQ(result.value, 11);
+    EXPECT_EQ(std::get<int>(result.value), 11);
 }
 
 TEST(CodeLinesCountTest, IgnoresComments) {
@@ -51,7 +51,7 @@ TEST(CodeLinesCountTest, IgnoresComments) {
     auto result = metric.Calculate(*func_it);
 
     // 3 строки кода (a=10, b=20, result=a+b), комментарии игнорируются
-    EXPECT_EQ(result.value, 3);
+    EXPECT_EQ(std::get<int>(result.value), 3);
 }
 
 }  // namespace analyzer::metric::metric_impl

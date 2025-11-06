@@ -50,7 +50,7 @@ MetricResult::ValueType CyclomaticComplexityMetric::CalculateImpl(const function
                                }),
                                0, std::plus<>());
 
-    return static_cast<MetricResult::ValueType>(total_complexity + 1);
+    return static_cast<int>(total_complexity + 1);
 }
 
 }  // namespace analyzer::metric::metric_impl

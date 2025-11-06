@@ -16,7 +16,7 @@ TEST(ParametersCountTest, NoParameters) {
 
     ASSERT_NE(func_it, functions.end());
     auto result = metric.Calculate(*func_it);
-    EXPECT_EQ(result.value, 0);
+    EXPECT_EQ(std::get<int>(result.value), 0);
 }
 
 TEST(ParametersCountTest, MultipleParameters) {
@@ -30,7 +30,7 @@ TEST(ParametersCountTest, MultipleParameters) {
 
     ASSERT_NE(func_it, functions.end());
     auto result = metric.Calculate(*func_it);
-    EXPECT_EQ(result.value, 5);  // a, b, c, *args, **kwargs
+    EXPECT_EQ(std::get<int>(result.value), 5);  // a, b, c, *args, **kwargs
 }
 
 TEST(ParametersCountTest, FunctionWithParameters) {
@@ -44,7 +44,7 @@ TEST(ParametersCountTest, FunctionWithParameters) {
 
     ASSERT_NE(func_it, functions.end());
     auto result = metric.Calculate(*func_it);
-    EXPECT_EQ(result.value, 3);  // result, a, b
+    EXPECT_EQ(std::get<int>(result.value), 3);  // result, a, b
 }
 
 }  // namespace analyzer::metric::metric_impl

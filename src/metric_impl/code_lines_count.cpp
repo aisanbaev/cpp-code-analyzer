@@ -51,7 +51,7 @@ MetricResult::ValueType CodeLinesCountMetric::CalculateImpl(const function::Func
     // Фильтруем только строки с кодом и подсчитываем количество
     auto code_lines = line_range | std::views::filter(is_code_line);
 
-    return static_cast<MetricResult::ValueType>(std::ranges::distance(code_lines));
+    return static_cast<int>(std::ranges::distance(code_lines));
 }
 
 }  // namespace analyzer::metric::metric_impl

@@ -40,7 +40,7 @@ MetricResult::ValueType CountParametersMetric::CalculateImpl(const function::Fun
         pos += id_marker.length();
     }
 
-    return count;
+    return static_cast<int>(count);
 }
 
 }  // namespace analyzer::metric::metric_impl

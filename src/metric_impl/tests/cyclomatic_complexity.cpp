@@ -16,7 +16,7 @@ TEST(CyclomaticComplexityTest, SimpleFunction) {
 
     ASSERT_NE(func_it, functions.end());
     auto result = metric.Calculate(*func_it);
-    EXPECT_EQ(result.value, 2);  // 1 (базовая) + 1 (assert)
+    EXPECT_EQ(std::get<int>(result.value), 2);  // 1 (базовая) + 1 (assert)
 }
 
 TEST(CyclomaticComplexityTest, IfStatement) {
@@ -30,7 +30,7 @@ TEST(CyclomaticComplexityTest, IfStatement) {
 
     ASSERT_NE(func_it, functions.end());
     auto result = metric.Calculate(*func_it);
-    EXPECT_EQ(result.value, 2);  // 1 (базовая) + 1 (if)
+    EXPECT_EQ(std::get<int>(result.value), 2);  // 1 (базовая) + 1 (if)
 }
 
 TEST(CyclomaticComplexityTest, NestedIf) {
@@ -44,7 +44,7 @@ TEST(CyclomaticComplexityTest, NestedIf) {
 
     ASSERT_NE(func_it, functions.end());
     auto result = metric.Calculate(*func_it);
-    EXPECT_EQ(result.value, 4);  // 1 + 1 (if) + 1 (вложенный if) + 1 (elif)
+    EXPECT_EQ(std::get<int>(result.value), 4);  // 1 + 1 (if) + 1 (вложенный if) + 1 (elif)
 }
 
 TEST(CyclomaticComplexityTest, Loops) {
@@ -58,7 +58,7 @@ TEST(CyclomaticComplexityTest, Loops) {
 
     ASSERT_NE(func_it, functions.end());
     auto result = metric.Calculate(*func_it);
-    EXPECT_EQ(result.value, 4);  // 1 + 1 (for) + 1 (while) + 1 (if)
+    EXPECT_EQ(std::get<int>(result.value), 4);  // 1 + 1 (for) + 1 (while) + 1 (if)
 }
 
 TEST(CyclomaticComplexityTest, MatchCase) {
@@ -72,7 +72,7 @@ TEST(CyclomaticComplexityTest, MatchCase) {
 
     ASSERT_NE(func_it, functions.end());
     auto result = metric.Calculate(*func_it);
-    EXPECT_EQ(result.value, 4);  // 1 + 3 (case)
+    EXPECT_EQ(std::get<int>(result.value), 4);  // 1 + 3 (case)
 }
 
 TEST(CyclomaticComplexityTest, Exceptions) {
@@ -86,7 +86,7 @@ TEST(CyclomaticComplexityTest, Exceptions) {
 
     ASSERT_NE(func_it, functions.end());
     auto result = metric.Calculate(*func_it);
-    EXPECT_EQ(result.value, 4);  // 1 + 1 (assert) + 1 (try) + 1 (finally)
+    EXPECT_EQ(std::get<int>(result.value), 4);  // 1 + 1 (assert) + 1 (try) + 1 (finally)
 }
 
 TEST(CyclomaticComplexityTest, Ternary) {
@@ -100,7 +100,7 @@ TEST(CyclomaticComplexityTest, Ternary) {
 
     ASSERT_NE(func_it, functions.end());
     auto result = metric.Calculate(*func_it);
-    EXPECT_EQ(result.value, 3);  // 1 + 2 (два тернарных оператора)
+    EXPECT_EQ(std::get<int>(result.value), 3);  // 1 + 2 (два тернарных оператора)
 }
 
 }  // namespace analyzer::metric::metric_impl
