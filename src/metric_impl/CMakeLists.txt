@@ -21,4 +21,8 @@ foreach(file IN LISTS test_files)
     configure_file(${file} "${CMAKE_CURRENT_BINARY_DIR}/${file_name}" COPYONLY)
 endforeach()
 
+target_compile_definitions(${target} PRIVATE
+    TEST_FILES_DIR="${CMAKE_CURRENT_BINARY_DIR}"
+)
+
 add_test(NAME ${target} COMMAND ${target})
