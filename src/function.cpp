@@ -1,28 +1,12 @@
 #include "function.hpp"
-
-#include <unistd.h>
-
-#include <algorithm>
-#include <array>
+#include "file.hpp"
+#include "utils.hpp"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <filesystem>
-#include <fstream>
-#include <functional>
-#include <iostream>
-#include <ranges>
-#include <sstream>
 #include <string>
-#include <variant>
+#include <unistd.h>
 #include <vector>
-
-#include "file.hpp"
-#include "utils.hpp"
-
-namespace fs = std::filesystem;
-namespace rv = std::ranges::views;
-namespace rs = std::ranges;
 
 namespace analyzer::function {
 
