@@ -1,7 +1,6 @@
 #include "metric_impl/cyclomatic_complexity.hpp"
 #include <algorithm>
 #include <array>
-#include <iostream>
 #include <ranges>
 #include <string>
 #include <unistd.h>
@@ -12,7 +11,7 @@ MetricResult::ValueType CyclomaticComplexityMetric::CalculateImpl(const function
     // Получаем строковое представление AST (абстрактного синтаксического дерева) функции.
     // Это S-выражение, сгенерированное утилитой tree-sitter, например:
     // "(function_definition name: (identifier) ... (if_statement ...) (for_statement ...))"
-    auto &function_ast = f.ast;
+    auto &ast = f.ast;
 
     // Список типов узлов AST, каждый из которых увеличивает цикломатическую сложность на 1.
     // Эти узлы соответствуют управляющим конструкциям языка Python:
@@ -34,23 +33,17 @@ MetricResult::ValueType CyclomaticComplexityMetric::CalculateImpl(const function
         "conditional_expression",  // для тернарного оператора
     };
 
-    // Создаем диапазон с паттернами "(node_type"
-    auto patterns = complexity_nodes |
-                    std::views::transform([](std::string_view node_type) { return "(" + std::string(node_type); });
+    auto count_node_occurrences = [&ast](std::string_view node) -> size_t {
+        return std::ranges::distance(std::views::iota(size_t{0}, ast.size() - node.size()) |
+                                     std::views::filter([&ast, node](size_t i) {
+                                         return ast[i] == '(' && ast.substr(i + 1, node.size()) == node;
+                                     }));
+    };
 
-    auto total_complexity =
-        std::ranges::fold_left(patterns | std::views::transform([&](const std::string &pattern) {
-                                   size_t count = 0;
-                                   size_t pos = 0;
-                                   while ((pos = function_ast.find(pattern, pos)) != std::string::npos) {
-                                       ++count;
-                                       pos += pattern.length();
-                                   }
-                                   return count;
-                               }),
-                               0, std::plus<>());
+    auto total = std::ranges::fold_left(complexity_nodes | std::views::transform(count_node_occurrences), size_t{0},
+                                        std::plus{});
 
-    return static_cast<int>(total_complexity + 1);
+    return static_cast<int>(total + 1);
 }
 
 }  // namespace analyzer::metric::metric_impl
