@@ -1,26 +1,9 @@
 #pragma once
-#include <unistd.h>
-
-#include <algorithm>
-#include <any>
-#include <array>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <filesystem>
-#include <fstream>
-#include <functional>
-#include <iostream>
-#include <ranges>
-#include <sstream>
-#include <string>
-#include <variant>
-#include <vector>
-
 #include "metric.hpp"
-
-namespace rv = std::ranges::views;
-namespace rs = std::ranges;
+#include <string>
+#include <unistd.h>
+#include <unordered_map>
+#include <vector>
 
 namespace analyzer::metric_accumulator {
 
@@ -43,7 +26,7 @@ struct MetricsAccumulator {
     const Accumulator &GetFinalizedAccumulator(const std::string &metric_name) const {
         auto metric_accululator = accumulators.at(metric_name);
         metric_accululator->Finalize();
-        return dynamic_cast<const Accumulator&>(*metric_accululator);
+        return dynamic_cast<const Accumulator &>(*metric_accululator);
     }
     void AccumulateNextFunctionResults(const std::vector<metric::MetricResult> &metric_results) const;
 

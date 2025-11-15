@@ -1,18 +1,8 @@
 #include "metric_impl/parameters_count.hpp"
-
-#include <array>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <filesystem>
-#include <fstream>
-#include <functional>
-#include <iostream>
-#include <ranges>
-#include <sstream>
 #include <string>
-#include <variant>
-#include <vector>
 
 namespace analyzer::metric::metric_impl {
 std::string CountParametersMetric::Name() const { return kName; }
@@ -50,7 +40,7 @@ MetricResult::ValueType CountParametersMetric::CalculateImpl(const function::Fun
         pos += id_marker.length();
     }
 
-    return count;
+    return static_cast<int>(count);
 }
 
 }  // namespace analyzer::metric::metric_impl

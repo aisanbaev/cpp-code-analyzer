@@ -1,21 +1,5 @@
 #include "metric_accumulator_impl/average_accumulator.hpp"
-
 #include <unistd.h>
-
-#include <algorithm>
-#include <array>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <filesystem>
-#include <fstream>
-#include <functional>
-#include <iostream>
-#include <ranges>
-#include <sstream>
-#include <string>
-#include <variant>
-#include <vector>
 
 namespace analyzer::metric_accumulator::metric_accumulator_impl {
 
@@ -40,4 +24,5 @@ double AverageAccumulator::Get() const {
         throw std::runtime_error("AverageAccumulator::Get() called before Finalize()");
     return average;
 }
+
 }  // namespace analyzer::metric_accumulator::metric_accumulator_impl

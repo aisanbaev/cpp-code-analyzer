@@ -1,8 +1,11 @@
 set(target metric_test)
 
+add_compile_definitions(TEST_FILES_DIR="${CMAKE_CURRENT_BINARY_DIR}")
+
 add_executable(${target}
     tests/code_lines_count.cpp
     tests/cyclomatic_complexity.cpp
+    tests/naming_style.cpp 
     tests/parameters_count.cpp
 )
 
@@ -22,3 +25,8 @@ foreach(file IN LISTS test_files)
 endforeach()
 
 add_test(NAME ${target} COMMAND ${target})
+
+# Добавляем тесты для analyse функций
+add_executable(analyse_test tests/analyse.cpp)
+target_link_libraries(analyse_test PRIVATE GTest::GTest GTest::Main metric function file metric_accumulator)
+add_test(NAME analyse_test COMMAND analyse_test)

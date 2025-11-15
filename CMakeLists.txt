@@ -1,16 +1,23 @@
 cmake_minimum_required(VERSION 3.30)
 project(analyzer VERSION 1.0.0 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    add_compile_options(-fmax-errors=1)
+endif()
 
 find_package(GTest REQUIRED)
 find_package(range-v3 REQUIRED)
 find_package(Boost REQUIRED COMPONENTS program_options)
 
 include_directories(PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+include(CTest)
+enable_testing()
 
 # Сначала настраиваем библиотеки, которые будут подключаться к analyzer
 add_subdirectory(src)
@@ -32,6 +39,3 @@ target_include_directories(${target}
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
-
-include(CTest)
-enable_testing()

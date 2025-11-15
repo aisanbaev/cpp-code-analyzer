@@ -2,16 +2,11 @@
 
 #include <cstring>
 #include <fstream>
-#include <iostream>
 #include <memory>
-#include <ranges>
 #include <string>
 #include <vector>
 
 namespace analyzer::file {
-
-namespace rv = std::ranges::views;
-namespace rs = std::ranges;
 
 File::File(const std::string &filename) : name{filename} {
     std::ifstream file(name);
@@ -62,7 +57,6 @@ std::string File::GetAst(const std::string &filename) try {
     while (fgets(buffer.data(), buffer.size(), pipe.get())) {
         result += buffer.data();
     }
-
     return result;
 } catch (const std::exception &e) {
     throw std::runtime_error("Error while getting ast from " + filename);
