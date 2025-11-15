@@ -3,6 +3,7 @@
 #include <array>
 #include <ranges>
 #include <string>
+#include <string_view>
 #include <unistd.h>
 
 namespace analyzer::metric::metric_impl {
@@ -11,7 +12,7 @@ MetricResult::ValueType CyclomaticComplexityMetric::CalculateImpl(const function
     // Получаем строковое представление AST (абстрактного синтаксического дерева) функции.
     // Это S-выражение, сгенерированное утилитой tree-sitter, например:
     // "(function_definition name: (identifier) ... (if_statement ...) (for_statement ...))"
-    auto &ast = f.ast;
+    std::string_view ast = f.ast;
 
     // Список типов узлов AST, каждый из которых увеличивает цикломатическую сложность на 1.
     // Эти узлы соответствуют управляющим конструкциям языка Python:
@@ -33,9 +34,9 @@ MetricResult::ValueType CyclomaticComplexityMetric::CalculateImpl(const function
         "conditional_expression",  // для тернарного оператора
     };
 
-    auto count_node_occurrences = [&ast](std::string_view node) -> size_t {
+    auto count_node_occurrences = [ast](std::string_view node) -> size_t {
         return std::ranges::distance(std::views::iota(size_t{0}, ast.size() - node.size()) |
-                                     std::views::filter([&ast, node](size_t i) {
+                                     std::views::filter([ast, node](size_t i) {
                                          return ast[i] == '(' && ast.substr(i + 1, node.size()) == node;
                                      }));
     };
